@@ -1,0 +1,44 @@
+package com.Multithreading;
+
+public class PrintSequenceUsing3Threads implements Runnable{
+    int numberupto =10;
+    static int num=1;
+    int remainder;
+    static Object lock=new Object();
+    public PrintSequenceUsing3Threads(int rem){
+        this.remainder=rem;
+    }
+    @Override
+    public void run() {
+      while(num<numberupto){
+        synchronized (lock){
+              if(num%3!=this.remainder){
+                  try {
+                      lock.wait();
+                  } catch (InterruptedException e) {
+                      throw new RuntimeException(e);
+                  }
+              }
+              System.out.println(Thread.currentThread().getName() + " "+ num);
+              num++;
+              lock.notifyAll();
+          }
+      }
+    }
+
+    public static void main(String[] args) {
+        PrintSequenceUsing3Threads p1=new PrintSequenceUsing3Threads(1);
+
+        PrintSequenceUsing3Threads p2=new PrintSequenceUsing3Threads(2);
+
+        PrintSequenceUsing3Threads p3=new PrintSequenceUsing3Threads(0);
+        Thread t1=new Thread(p1,"Thread1");
+        Thread t2=new Thread(p2,"Thread2");
+        Thread t3=new Thread(p3,"Thread3");
+        t1.start();
+        t2.start();
+        t3.start();
+
+
+    }
+}
