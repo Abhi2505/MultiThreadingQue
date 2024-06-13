@@ -12,7 +12,7 @@ public class PrintSequenceUsing3Threads implements Runnable{
     public void run() {
       while(num<numberupto){
         synchronized (lock){
-              if(num%3!=this.remainder){
+              while(num%3!=this.remainder){
                   try {
                       lock.wait();
                   } catch (InterruptedException e) {
