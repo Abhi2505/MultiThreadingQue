@@ -6,7 +6,7 @@ class ThreadDemo extends Thread {
     //and only after its execution the other thread will get the chance
     //If method is a static method then class level lock is acquired by the current thread and the other thread would
     //get a chance only after the current completes however the other thread can execute the instance method while the current
-    // thread is executing static method.
+    // thread is executing static method .
 
 
     ObjLock1 obj;
