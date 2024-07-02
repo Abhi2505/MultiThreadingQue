@@ -4,7 +4,7 @@ public class PrintSequenceUsing2Threads {
     private static boolean printletter=true;
     private static final Object lock=new Object();
 
-    // print the sequence 1 A 2 B 3 C --------- 26 Z using two threads
+    // print the  sequence 1 A 2 B 3 C --------- 26 Z using two threads
     public static void main(String[] args) throws InterruptedException {
         Runnable letterTask = new Runnable() {
             @Override
