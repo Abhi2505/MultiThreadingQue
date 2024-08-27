@@ -6,7 +6,7 @@ public class FuturesVsCompletableFuture {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         String s1="as";
        s1="asd";
-        ExecutorService executorService= Executors.newFixedThreadPool(2);
+        ExecutorService executorService= Executors.newFixedThreadPool(4);
         System.out.println("-----");
         Future<Integer>f=executorService.submit(()->{
             Thread.sleep(3000);
@@ -59,18 +59,38 @@ public class FuturesVsCompletableFuture {
                 throw new RuntimeException(e);
             }
             return 2;
-        });
+        },executorService);
         CompletableFuture<Integer> c2=CompletableFuture.supplyAsync(()->{
             System.out.println("Task 2 Executed by thread named: "+Thread.currentThread().getName());
             try {
+
+
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             return 5;
         });
+        CompletableFuture<Integer> c3=CompletableFuture.supplyAsync(()->{
+            System.out.println("Task 3 Executed by thread named: "+Thread.currentThread().getName());
+            try {
 
-        CompletableFuture<Integer>combined=c1.thenCombine(c2,Integer::sum).thenApply(result->result*2).handle((r,ex)->{
+
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return 4;
+        });
+
+        CompletableFuture<Integer>combined=c1.thenCombine(c2,(i1,i2 ) ->{
+            System.out.println(Thread.currentThread().getName()+" t1");
+            return i1+i2;
+        }).thenCombine(c3,(a, b) ->{
+            System.out.println(Thread.currentThread().getName()+" t2");
+            return a*b;
+        }).thenApply(result->result*2).handle((r,ex)->{
+            System.out.println(Thread.currentThread().getName()+" t3");
             if(ex!=null){
                 System.out.println(ex.getMessage());
             }
@@ -81,7 +101,7 @@ public class FuturesVsCompletableFuture {
             }
             return r;
         });
-        for(int i=1;i<4;i++){
+        for(int i=1;i<8;i++){
             System.out.println("Task executed by thread :"+i);
         }
         System.out.println(combined.get());

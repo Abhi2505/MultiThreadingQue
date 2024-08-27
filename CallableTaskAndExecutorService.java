@@ -17,7 +17,7 @@ class  StockPriceFetcherTask implements Callable<Double>{
     //when we submit the object to the executor service then call method is called
     @Override
     public Double call() throws Exception {
-        Thread.sleep(5000);
+        Thread.sleep(7000);
         return Math.random()*1000;
     }
 }
@@ -47,9 +47,7 @@ public class CallableTaskAndExecutorService {
 //isDone():check if task is completed
 //cancel:cancel task if not started
 
-
         List<String> stocksymbols = Arrays.asList("AdaniPower", "IRFC", "IREDA","LTI","Infosys");
-
         List<Future> futures = new ArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         for (String stock : stocksymbols) {
@@ -58,13 +56,19 @@ public class CallableTaskAndExecutorService {
             System.out.println(future);
             futures.add(future);
         }
-        executorService.shutdown();
+
         for(int i=0;i<5;i++){
-            while(!futures.get(i).isDone()){
-                Thread.sleep(2000);
+           if(!futures.get(i).isDone()){
+                Thread.sleep(3000);
                 System.out.println("Waiting....");
             }
+            //futures.get(i).get() -> this is blocking if print me we use that then it would pring tonly after computation result
+            //but if we use futures.get(i).isDone() which is non blocking then it would immediately return true or false and can move fwd
             System.out.println("price for stock "+stocksymbols.get(i)+" = "+futures.get(i).get());
+        }
+        executorService.shutdown();
+        for(int i=0;i<5;i++){
+            System.out.println("check whether it is asynchronous ro not "+Thread.currentThread().getName());
         }
     }
 

@@ -5,31 +5,25 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AtomicDemo {
-  //  private static volatile int sharedcounter=0;
+    //private static volatile int sharedcounter=0;
     //during compund operation on shared variable then we have to use atomic and if you use synchronized perfomance is impacted
       private static AtomicInteger atomicint =new AtomicInteger(0);
     public static void main(String[] args) throws InterruptedException {
-
-        Runnable  task=()->{
+    Runnable  task=()->{
             for(int i=1;i<=100000;i++){
-               atomicint.incrementAndGet();
+//               sharedcounter++;
+                atomicint.incrementAndGet();
             }
-
-
-
-
-
-        };
-
-
-
+    };
         Thread t1=new Thread(task);
         Thread t2=new Thread(task);
         t1.start();
         t2.start();
         t1.join();
         t2.join();
+
         System.out.println(atomicint.get());
+//        System.out.println(sharedcounter);
 
         //volatile -
         //ensures visibliy of changes to variable across threads

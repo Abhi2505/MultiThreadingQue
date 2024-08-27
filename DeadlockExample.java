@@ -4,7 +4,7 @@ public class DeadlockExample {
     public static void main(String[] args) {
         Object akey=new Object();
         Object bkey=new Object();
-        Thread a=new Thread(()->{
+        Thread t1=new Thread(()->{
             synchronized (bkey){
                 System.out.println("a has acquired key of b");
                 try{
@@ -20,7 +20,7 @@ public class DeadlockExample {
             }
         });
 
-        Thread b=new Thread(()->{
+        Thread t2=new Thread(()->{
             synchronized (akey){
                 System.out.println("b has acquired key of a");
                 try{
@@ -36,8 +36,8 @@ public class DeadlockExample {
             }
         });
 
-        a.start();
-        b.start();
+        t1.start();
+        t2.start();
         // to check the dead lock using cmd use jstack with process id which u can get by seeing using ctrl+shift+esc  for the javaa
         //file executed from cmd
 

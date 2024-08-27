@@ -2,7 +2,7 @@ package com.Multithreading;
 
 public class PrintOddAndEvenUsing2Threads implements Runnable{
     static int count = 1;
-    private static boolean printletter = true;
+//    private static boolean printletter = true;
     Object obj;
 
     public PrintOddAndEvenUsing2Threads(Object o) {
@@ -35,10 +35,10 @@ public class PrintOddAndEvenUsing2Threads implements Runnable{
     //print even and odd number in sequence in java
 
     public static void main(String[] args) throws InterruptedException {
-        Object lock1 = new Object();
+        //Object lock1 = new Object();
         Object lock2=new Object();
         Runnable r1 = new PrintOddAndEvenUsing2Threads(lock2);
-           Runnable r2 = new PrintOddAndEvenUsing2Threads(lock1);
+           Runnable r2 = new PrintOddAndEvenUsing2Threads(lock2);
         Thread e = new Thread(r1, "even");
         Thread o = new Thread(r2, "odd");
         e.start();

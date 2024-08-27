@@ -27,7 +27,6 @@ public class ConcurrentFileReaderProgramNotUsingExecutorFramework {
         //callable task are submitted to an executor service for execution
         String filepath1="C:/Users/AACS/IdeaProjects/Stream/src/com/Multithreading/samplefile1.txt";
         String filepath2="C:/Users/AACS/IdeaProjects/Stream/src/com/Multithreading/samplefile2.txt";
-
         Thread file1Thread=new Thread(()-> {
             try {
                 readFile(filepath1);

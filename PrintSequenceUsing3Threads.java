@@ -15,6 +15,9 @@ public class PrintSequenceUsing3Threads implements Runnable{
               while(num%3!=this.remainder){
                   try {
                       lock.wait();
+                      System.out.println(Thread.currentThread().getName() +"  -- -- ");
+                      //while loop is required here as again after printing a value by one thread the waiting thread
+                      //will get a chance and i want the correct thread waiting shouyld get the chance
                   } catch (InterruptedException e) {
                       throw new RuntimeException(e);
                   }
@@ -35,8 +38,8 @@ public class PrintSequenceUsing3Threads implements Runnable{
         Thread t1=new Thread(p1,"Thread1");
         Thread t2=new Thread(p2,"Thread2");
         Thread t3=new Thread(p3,"Thread3");
-        t1.start();
         t2.start();
+        t1.start();
         t3.start();
 
 

@@ -1,7 +1,7 @@
 package com.Multithreading;
 
 public class PrintSequenceUsing2Threads {
-    private static boolean printletter=true;
+    private static boolean printletter=false;
     private static final Object lock=new Object();
 
     // print the  sequence 1 A 2 B 3 C --------- 26 Z using two threads

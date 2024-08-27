@@ -1,4 +1,4 @@
-package com.LearnHashmap;
+package com.Multithreading;
 
 public class PrintSequenceOdd_EvenUsing2Threads implements Runnable {
 PrintSequenceOdd_EvenUsing2Threads(int e){

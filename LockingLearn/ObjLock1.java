@@ -17,9 +17,11 @@ class ThreadDemo extends Thread {
     @Override
     public void run() {
         try {
-            ObjLock1.m3();
-            ObjLock1.m4();
-            obj.m1();
+
+            ObjLock1.m3();//this would acquire object level lock as m3 is a static synchribuzed so other thread need to wait
+            obj.m5();//m5 is a normal method can be executed by thread
+            ObjLock1.m4();//
+            obj.m1();//this is a instance method ie synchronized and can be accessed by only on thread at a time
             obj.m2();
 
 
@@ -30,6 +32,12 @@ class ThreadDemo extends Thread {
     }
 }
 public class ObjLock1 {
+    public void m5() throws InterruptedException {
+        for(int i=0;i<5;i++){
+            Thread.sleep(3000);
+            System.out.println("heelo");
+        }
+    }
     public synchronized void m1() throws InterruptedException {
         System.out.println("Inside instance method m1 by thread "+Thread.currentThread().getName());
         for(int i=0;i<6;i++){
@@ -41,8 +49,9 @@ public class ObjLock1 {
     public synchronized void m2(){
         System.out.println("Im in instance method m2 "+Thread.currentThread().getName());
     }
-    public static synchronized void m3(){
-        for(int i=0;i<3;i++){
+    public static synchronized void m3() throws InterruptedException {
+        for(int i=0;i<5;i++){
+            Thread.sleep(2000);
             System.out.println(" im static method m3 "+Thread.currentThread().getName());
         }
     }
